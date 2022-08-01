@@ -3,7 +3,7 @@ const axios = require('axios');
 var router = express.Router();
 var FormData = require('form-data');
 
-//Dont forget to set these Environment variable in .env or Config Vars(if in case you use Heroku) when deployed.
+// Env variables
 const project_id = process.env.PROJECT_ID;
 const authToken = process.env.AUTH_TOKEN;
 const triggerToken = process.env.TRIGGER_TOKEN;
@@ -35,7 +35,7 @@ router.get('/', function(req, res, next) {
 //Triggered from using a slash command. This should intern get the branch list and post to slack api to show it to user.
 router.post('/get_apk',function(req,res) {
     try {
-        axios.get(branches_api, { 'headers': { 'PRIVATE-TOKEN': authToken } })
+        axios.get(branches_api, { 'headers': { 'PRIVATE-TOKEN': authToken },'params': {'per_page': 200} })
         .then(response => {
             const user_id = `<@${req.body.user_id}>`;
             const channel_id = req.body.channel_id;
